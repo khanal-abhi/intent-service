@@ -21,8 +21,8 @@ public class SleepService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         try {
             Thread.sleep(4000);
-            String name = intent.getStringExtra(KEY);
-            String message = String.format(Locale.US, "Hello from %s!", name);
+            String msg = intent.getStringExtra(KEY);
+            String message = String.format(Locale.US, "Message echo from service is: %s!", msg);
 
             Intent broadcast = new Intent();
             broadcast.setAction(MainActivity.ResponseReceiver.KEY);

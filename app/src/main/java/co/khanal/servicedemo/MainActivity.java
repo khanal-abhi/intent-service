@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,24 +24,26 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        IntentFilter filter = new IntentFilter(ResponseReceiver.KEY);
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        ResponseReceiver responseReceiver = new ResponseReceiver();
+        registerReceiver(responseReceiver, filter);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert(fab != null);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                String message = ((EditText)findViewById(R.id.message)).getText().toString();
+
+                Intent intent = new Intent(getApplicationContext(), SleepService.class);
+                intent.putExtra(SleepService.KEY, message.trim().isEmpty() ? "Hello World!" : message);
+                startService(intent);
+                Snackbar.make(view, "Message sent to the service!", Snackbar.LENGTH_LONG).show();
             }
         });
 
-        Intent intent = new Intent(getApplicationContext(), SleepService.class);
-        intent.putExtra(SleepService.KEY, "Abhi");
-        startService(intent);
 
-        IntentFilter filter = new IntentFilter(ResponseReceiver.KEY);
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
-        ResponseReceiver responseReceiver = new ResponseReceiver();
-        registerReceiver(responseReceiver, filter);
 
 
 
