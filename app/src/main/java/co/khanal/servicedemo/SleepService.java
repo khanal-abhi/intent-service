@@ -11,7 +11,6 @@ import java.util.Locale;
 public class SleepService extends IntentService {
 
     public static String KEY = "co.khanal.sleepservice";
-    public static String DATA_KEY = "data_key";
 
     public SleepService(){
         super("SleepService");
